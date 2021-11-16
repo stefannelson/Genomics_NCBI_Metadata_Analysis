@@ -7,7 +7,7 @@ library(dplyr)
 
 # May be helpful to have NCBI API key as described 
 # here: https://cran.r-project.org/web/packages/rentrez/vignettes/rentrez_tutorial.html#getting-started-with-the-rentrez
-set_entrez_key("11c1de631580da44a5ae812abb5357a3ff09")
+set_entrez_key("")
 Sys.getenv("ENTREZ_KEY")
 
 # We're looking at the assembly database; here are the options for it

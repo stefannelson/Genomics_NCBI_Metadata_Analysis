@@ -1,43 +1,24 @@
 library(tidyverse)
 library(ggplot2)
 library(lubridate)
+library(ggpubr)
+
+source("plotting_methods.R")
 
 load("metadata.RData")
 save(metadata, "metadata.RData")
 
 #############################################################################
-# PLOT 1: ScaffoldN50 over Time (by Division)
+# ScaffoldN50, ContigN50, and Coverage over time
 #############################################################################
-ggplot(data = metadata[metadata$submissiondate > "2010-01-01",],
-       aes(x = submissiondate, 
-           y = scaffoldn50,
-           color = factor(Clade)
-           )) + 
-  geom_point() +
-  facet_grid(~ Clade) + 
-  geom_smooth(method = "lm", color = "black") +
-  labs(title = "ScaffoldN50 Values Over the Past Decade",
-       subtitle = "(Grouped by Division)",
-       x = "")
-  # geom_point(aes(color = factor(Division))) +
-  # geom_smooth(aes(group = 1), method = "lm")
+sub_df = filter_factor(metadata, "Carnivora", step = 2)
+a1 = plot_v_time_scatter(sub_df, "scaffoldn50", factor = "Classification")
+a2 = plot_v_time_scatter(sub_df, "contign50", factor = "Classification")
+a3 = plot_v_time_scatter(sub_df, "coverage", factor = "Classification")
 
-#############################################################################
-# PLOT 2: ContigN50 over Time (by Division)
-#############################################################################
-subset_df = metadata[metadata$submissiondate > "2010-01-01" & 
-                       metadata$contign50 < 5e+08,]
-subset_df = subset_df[!is.na(subset_df$contign50),]
-ggplot(data = subset_df,
-       aes(x = submissiondate, 
-           y = contign50,
-           color = factor(Division)
-       )) + 
-  geom_point() +
-  facet_grid(~ Division) + 
-  geom_smooth(method = "lm", color = "black") + 
-  labs(title = "ContigN50 Values Over the Past Decade",
-       subtitle = "(Grouped by Division)",
-       x = "")
+figure_a = ggarrange(a1,a2,a3, ncol = 1, nrow = 3, common.legend = TRUE, legend = "right")
+annotate_figure(figure_a, top = text_grob("ScaffoldN50 and ContigN50 for Carnivora", size = 14))
+# wilcox.test(as.numeric(sub_df$submissiondate), sub_df$scaffoldn50)
+
 
 

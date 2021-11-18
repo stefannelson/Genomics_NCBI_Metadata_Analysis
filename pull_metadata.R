@@ -62,15 +62,18 @@ metadata_subset$scaffoldn50 = as.numeric(metadata_subset$scaffoldn50)
 
 metadata_subset$scaffoldn50 = as.numeric(metadata_subset$scaffoldn50)
 metadata_subset$contign50 = as.numeric(metadata_subset$contign50)
+metadata_subset$coverage = as.numeric(metadata_subset$coverage)
 
-metadata$asmupdatedate = ymd(metadata$asmupdatedate)
-metadata$lastupdatedate = ymd(metadata$lastupdatedate)
-metadata$seqreleasedate = ymd(metadata$seqreleasedate)
-metadata$submissiondate = ymd(metadata$submissiondate)
-metadata$scaffoldn50 = as.numeric(metadata$scaffoldn50)
+# metadata$asmupdatedate = ymd(metadata$asmupdatedate)
+# metadata$lastupdatedate = ymd(metadata$lastupdatedate)
+# metadata$seqreleasedate = ymd(metadata$seqreleasedate)
+# metadata$submissiondate = ymd(metadata$submissiondate)
+# metadata$scaffoldn50 = as.numeric(metadata$scaffoldn50)
+# 
+# metadata$scaffoldn50 = as.numeric(metadata$scaffoldn50)
+# metadata$contign50 = as.numeric(metadata$contign50)
+# metadata$coverage = as.numeric(metadata$coverage)
 
-metadata$scaffoldn50 = as.numeric(metadata$scaffoldn50)
-metadata$contign50 = as.numeric(metadata$contign50)
 
 
 #############################################################################
@@ -113,13 +116,13 @@ for (name in colnames(taxa_df)) {
 # This will give some additional identifiers to help with subsetting.
 metadata = left_join(metadata_subset, taxa_df, by = c("taxid" = "TaxId"))
 
-test = strsplit(metadata$Lineage, "; ")
-column = c()
-for (i in 1:length(test)) {
-  organism = test[[i]]
-  column = c(column, organism[3])
-}
-metadata$Clade = column
+# test = strsplit(metadata$Lineage, "; ")
+# column = c()
+# for (i in 1:length(test)) {
+#   organism = test[[i]]
+#   column = c(column, organism[3])
+# }
+# metadata$Clade = column
 
 # Export for visualizations
 save(metadata, file = "metadata.RData")
